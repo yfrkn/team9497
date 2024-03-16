@@ -3,28 +3,18 @@ package frc.robot;
 //FRC
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-
 //REV
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-//NAVX
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SPI;
+
 
 public class Robot extends TimedRobot {
 
-  int konum = 2;
-
   double maxSpeed = 0.5;
-  double heading;
-  double error;
-  double newAngle;
 
   private final XboxController controller = new XboxController(0);
-  private final AHRS gyro = new AHRS(SPI.Port.kMXP);
   private final Timer timer = new Timer();
 
   //ROBOTS
@@ -49,67 +39,22 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void robotPeriodic() {
-    SmartDashboard.putNumber("gyro", gyro.getAngle());
-    SmartDashboard.putNumber("heading", heading);
-    SmartDashboard.putNumber("error", error);
-    SmartDashboard.putNumber("newAngle", newAngle);
-    SmartDashboard.putNumber("shooter", shooter.get());
-    SmartDashboard.putNumber("leftSpeed", leftMotor.get());
-    SmartDashboard.putNumber("rightSpeed", rightMotor.get());
-  }
+  public void robotPeriodic() {}
 
   @Override
   public void autonomousInit() {
     timer.reset();
     timer.start();
-
-    heading = gyro.getAngle();
   }
 
   @Override
   public void autonomousPeriodic() {
-    if (konum == 1) {
-      if (timer.get()<=1) {
-        shooter.set(-1);
-        robot.arcadeDrive(0, 0);
-      } if (timer.get()>1 && timer.get()<=2) {
-        shooter.set(0);
-        robot.arcadeDrive(-0.5, 0);
-      } if (timer.get()>2 && timer.get()<=7) {
-        newAngle = heading+50;
-        error = newAngle-gyro.getAngle();
-        if (error<=25) {
-          shooter.set(0);
-          robot.arcadeDrive(0, 0);
-        } if (error>25) {
-          shooter.set(0);
-          robot.arcadeDrive(0, -0.4);
-        }
-      } if (timer.get() > 7 && timer.get()<=8) {
-        shooter.set(0);
-        robot.arcadeDrive(-0.5, 0);
-      }
-    } 
-    
-    if (konum == 2) {
-      if (timer.get()<=2) {
-        shooter.set(-1);
-        robot.arcadeDrive(0, 0);
-      } if (timer.get()>2 && timer.get()<=4) {
-        shooter.set(0);
-        robot.arcadeDrive(-0.5, 0);
-      }
-    } 
-    
-    if (konum == 3) {
-      //2'yi Kullan
-    } 
-    
-    if (konum == 4) {
-      if (timer.get()<2) {
-        robot.arcadeDrive(-0.5, 0);
-      } 
+    if (timer.get()<=2) {
+      shooter.set(-1);
+      robot.arcadeDrive(0, 0);
+    } if (timer.get()>2 && timer.get()<=4) {
+      shooter.set(0);
+      robot.arcadeDrive(-0.5, 0);
     }
   }
 
