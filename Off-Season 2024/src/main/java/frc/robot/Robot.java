@@ -1,10 +1,11 @@
+//REVDEN 9 NO.LU MOTORA ENCODER AYARLA
+
 package frc.robot;
 
 //FRC
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 //REV
 import com.revrobotics.CANSparkMax;
@@ -17,7 +18,6 @@ public class Robot extends TimedRobot {
   double maxSpeed = 0.5;
 
   private final XboxController controller = new XboxController(0);
-  private final Timer timer = new Timer();
 
   //ROBOTS
   private final CANSparkMax leftMotor = new CANSparkMax(9, MotorType.kBrushed);
@@ -27,10 +27,6 @@ public class Robot extends TimedRobot {
   
   private final DifferentialDrive robot = new DifferentialDrive(leftMotor, rightMotor);
 
-  //SHOOTER
-  private final CANSparkMax shooter = new CANSparkMax(5, MotorType.kBrushed);
-  private final CANSparkMax shooterFollowing = new CANSparkMax(4, MotorType.kBrushed);
-
   private RelativeEncoder encoder;
 
   @Override
@@ -38,8 +34,6 @@ public class Robot extends TimedRobot {
     leftFollowing.follow(leftMotor);
     rightFollowing.follow(rightMotor);
     rightMotor.setInverted(true);
-
-    shooterFollowing.follow(shooter);
 
     encoder = leftMotor.getAlternateEncoder(8192);
   }
@@ -50,21 +44,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousInit() {
-    timer.reset();
-    timer.start();
-  }
+  public void autonomousInit() {}
 
   @Override
-  public void autonomousPeriodic() {
-    if (timer.get()<=2) {
-      shooter.set(-1);
-      robot.arcadeDrive(0, 0);
-    } if (timer.get()>2 && timer.get()<=4) {
-      shooter.set(0);
-      robot.arcadeDrive(-0.5, 0);
-    }
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {}                                                   
@@ -72,17 +55,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     if (controller.getLeftBumper()) {
-      maxSpeed=0.6;
+      maxSpeed-=0.1;
     } if (controller.getRightBumper()) {
-      maxSpeed=0.8;
-    } if (controller.getRawButtonPressed(1)) {
-      shooter.set(-1);
-    } if (controller.getRawButtonReleased(1)) {
-      shooter.set(0);
-    } if (controller.getRawButtonPressed(4)) {
-      shooter.set(0.5);
-    } if (controller.getRawButtonReleased(4)) {
-      shooter.set(0);
+      maxSpeed+=0.1;
     }
 
     robot.arcadeDrive(-controller.getLeftY()*maxSpeed, controller.getRightX()*maxSpeed);
