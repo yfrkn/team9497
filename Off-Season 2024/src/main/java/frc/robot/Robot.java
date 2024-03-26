@@ -40,7 +40,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("encoder", encoder.getPosition());
+    SmartDashboard.putNumber("enc Position", encoder.getPosition());
+    SmartDashboard.putNumber("enc velocity", encoder.getVelocity());
   }
 
   @Override
