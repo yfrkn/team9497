@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.XboxController;
 //REV
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
-
 
 public class Robot extends TimedRobot {
 
@@ -31,8 +29,6 @@ public class Robot extends TimedRobot {
   private final CANSparkMax shooter = new CANSparkMax(5, MotorType.kBrushed);
   private final CANSparkMax shooterFollowing = new CANSparkMax(4, MotorType.kBrushed);
 
-  private RelativeEncoder encoder;
-
   @Override
   public void robotInit() {
     leftFollowing.follow(leftMotor);
@@ -40,14 +36,10 @@ public class Robot extends TimedRobot {
     rightMotor.setInverted(true);
 
     shooterFollowing.follow(shooter);
-
-    encoder = leftMotor.getAlternateEncoder(8192);
   }
 
   @Override
-  public void robotPeriodic() {
-    SmartDashboard.putNumber("encoder", encoder.getPosition());
-  }
+  public void robotPeriodic() {}
 
   @Override
   public void autonomousInit() {
@@ -56,15 +48,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {
-    if (timer.get()<=2) {
-      shooter.set(-1);
-      robot.arcadeDrive(0, 0);
-    } if (timer.get()>2 && timer.get()<=4) {
-      shooter.set(0);
-      robot.arcadeDrive(-0.5, 0);
-    }
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {}                                                   
