@@ -1,11 +1,11 @@
-//REVDEN 9 NO.LU MOTORA ENCODER AYARLA
-
 package frc.robot;
 
 //FRC
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Timer;
+
 //REV
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -23,12 +23,19 @@ public class Robot extends TimedRobot {
   
   private final DifferentialDrive robot = new DifferentialDrive(leftMotor, rightMotor);
 
+  private final CANSparkMax shooter = new CANSparkMax(5, MotorType.kBrushed);
+  private final CANSparkMax shooterFollowing = new CANSparkMax(4, MotorType.kBrushed);
+
+  private final Timer timer = new Timer();
+
   @Override
   public void robotInit() {
     leftFollowing.follow(leftMotor);
     rightFollowing.follow(rightMotor);
     
     rightMotor.setInverted(true);
+
+    shooterFollowing.follow(shooter);
   }
 
   @Override
@@ -41,7 +48,11 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    //timer.get() ile o anki süreyi alırsınız.
+    //shooter.set() ile shooter motorunun hızını ayarlarsınız (-1 ile 1 arasında değer alır)
+    //robot.arcadeDrive() 1. Değer: x Yönündeki Hızı (ileri geri 1/-1), 2. Değer: y Dönüş Hızı(sağa sola dönüş 1/-1))
+  }
 
   @Override
   public void teleopInit() {}                                                   
@@ -49,9 +60,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     if (controller.getLeftBumper()) {
-      maxSpeed-=0.1;
+      maxSpeed=0.6;
     } if (controller.getRightBumper()) {
-      maxSpeed+=0.1;
+      maxSpeed=0.8;
+    } if (controller.getRawButtonPressed(1)) {
+      shooter.set(-1);
+    } if (controller.getRawButtonReleased(1)) {
+      shooter.set(0);
+    } if (controller.getRawButtonPressed(4)) {
+      shooter.set(0.5);
+    } if (controller.getRawButtonReleased(4)) {
+      shooter.set(0);
     }
 
     robot.arcadeDrive(-controller.getLeftY()*maxSpeed, controller.getRightX()*maxSpeed);
