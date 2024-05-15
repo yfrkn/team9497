@@ -5,7 +5,6 @@ package frc.robot;
 //FRC
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.XboxController;
 //REV
 import com.revrobotics.CANSparkMax;
@@ -17,7 +16,6 @@ public class Robot extends TimedRobot {
 
   private final XboxController controller = new XboxController(0);
 
-  //ROBOTS
   private final CANSparkMax leftMotor = new CANSparkMax(9, MotorType.kBrushed);
   private final CANSparkMax leftFollowing = new CANSparkMax(8, MotorType.kBrushed);
   private final CANSparkMax rightMotor = new CANSparkMax(7, MotorType.kBrushed);
@@ -29,6 +27,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     leftFollowing.follow(leftMotor);
     rightFollowing.follow(rightMotor);
+    
     rightMotor.setInverted(true);
   }
 
@@ -36,7 +35,10 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {}
 
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    timer.reset();
+    timer.start();
+  }
 
   @Override
   public void autonomousPeriodic() {}
