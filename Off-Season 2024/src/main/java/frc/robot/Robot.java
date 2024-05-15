@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.XboxController;
 //REV
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
-
 
 public class Robot extends TimedRobot {
 
@@ -27,22 +25,15 @@ public class Robot extends TimedRobot {
   
   private final DifferentialDrive robot = new DifferentialDrive(leftMotor, rightMotor);
 
-  private RelativeEncoder encoder;
-
   @Override
   public void robotInit() {
     leftFollowing.follow(leftMotor);
     rightFollowing.follow(rightMotor);
     rightMotor.setInverted(true);
-
-    encoder = leftMotor.getAlternateEncoder(8192);
   }
 
   @Override
-  public void robotPeriodic() {
-    SmartDashboard.putNumber("enc Position", encoder.getPosition());
-    SmartDashboard.putNumber("enc velocity", encoder.getVelocity());
-  }
+  public void robotPeriodic() {}
 
   @Override
   public void autonomousInit() {}
