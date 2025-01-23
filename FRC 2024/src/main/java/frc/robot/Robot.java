@@ -12,12 +12,12 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Robot extends TimedRobot {
 
-  double maxSpeed = 0.5;
+  double maxSpeed = 0.6;
 
   private final XboxController controller = new XboxController(0);
   private final Timer timer = new Timer();
 
-  //ROBOTS
+  //ROBOT
   private final CANSparkMax leftMotor = new CANSparkMax(9, MotorType.kBrushed);
   private final CANSparkMax leftFollowing = new CANSparkMax(8, MotorType.kBrushed);
   private final CANSparkMax rightMotor = new CANSparkMax(7, MotorType.kBrushed);
