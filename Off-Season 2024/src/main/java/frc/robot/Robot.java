@@ -48,11 +48,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {
-    //timer.get() ile o anki süreyi alırsınız.
-    //shooter.set() ile shooter motorunun hızını ayarlarsınız (-1 ile 1 arasında değer alır)
-    //robot.arcadeDrive() 1. Değer: x Yönündeki Hızı (ileri geri 1/-1), 2. Değer: y Dönüş Hızı(sağa sola dönüş 1/-1))
-  }
+  public void autonomousPeriodic() {}
 
   @Override
   public void teleopInit() {}                                                   
