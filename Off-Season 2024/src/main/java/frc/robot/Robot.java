@@ -56,9 +56,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     if (controller.getLeftBumper()) {
-      maxSpeed=0.6;
+      maxSpeed-=0.1;
     } if (controller.getRightBumper()) {
-      maxSpeed=0.8;
+      maxSpeed+=0.1;
     } if (controller.getRawButtonPressed(1)) {
       shooter.set(-1);
     } if (controller.getRawButtonReleased(1)) {
